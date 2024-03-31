@@ -30,4 +30,4 @@ jobs:
         run: ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy files to server with rsync
-        run: rsync -avz --exclude=.git --exclude=.github --exclude=composer.json --exclude=composer.lock -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/${{ secrets.SSH_USER }}/wwwroot/
+        run: rsync -avz --exclude=.git --exclude=.github --exclude=composer.json --exclude=composer.lock --exclude=.gitignore --exclude=.DS_Store -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/${{ secrets.SSH_USER }}/wwwroot/

@@ -4,11 +4,14 @@ namespace ZilverenPeloton;
 
 use SmartWebsite\Database;
 
-class ZPController {
-    public function __construct() {
+class ZPController
+{
+    public function __construct()
+    {
     }
 
-    public static function dynamicMenu($d) {
+    public static function dynamicMenu($d)
+    {
         $menu = array();
         $menu[] = array('link' => "./{$d['code']}", 'title' => "Virtueel fietsen");
         if ($d['steun'] != '') {
@@ -17,7 +20,8 @@ class ZPController {
         return $menu;
     }
 
-    private static function sortVideos($a, $b) {
+    private static function sortVideos($a, $b)
+    {
         if ($a == $b) {
             return 0;
         }
@@ -25,9 +29,10 @@ class ZPController {
         $bb = stripos($b, 'limb') === false ? 0 : 1;
         if ($aa == $bb) return 0;
         return ($aa > $bb) ? -1 : 1;
-    }    
+    }
 
-    public static function getVideos($domain, $show = 'all') {
+    public static function getVideos($domain, $show = 'all')
+    {
         $videos = array();
         $videoMap = array();
         $files = glob('./video/*--*.mp4');
@@ -44,21 +49,19 @@ class ZPController {
                 $videos[] = $v;
                 $videoMap[$v['code']] = $v;
             }
-            // $yaml .= "<a class=\"btn btn-sm\" href=\"javascript:changeVideo('".$params->domain."{$file}')\">{$info['naam']}</a>\n";
         }
-        // echo '<pre>' . print_r($videoMap, true) . '</pre>';
         return array($videos, $videoMap);
     }
 
-    public static function unknown($pass = false) {
-        $yaml = "---\n" . 
-                "title: Het Zilveren Peloton\n" .
-                "colour: light\n" .
-                "---\n\n";
+    public static function unknown($pass = false)
+    {
+        $yaml = "---\n" .
+            "title: Het Zilveren Peloton\n" .
+            "colour: light\n" .
+            "---\n\n";
         if ($pass) {
             $yaml .= "GEEN TOEGANG. Controleer de URL of [keer terug naar de homepage](./).\n\n";
-        }
-        else {
+        } else {
             $yaml .= "Deze pagina bestaat niet. Controleer de URL of [selecteer het deelnemende team op de homepage](./).\n\n";
         }
         return array(
@@ -68,10 +71,11 @@ class ZPController {
         );
     }
 
-    public static function getStatus($code, $pass = false) {
+    public static function getStatus($code, $pass = false)
+    {
         $rst = array(
             'doel' => 1000,
-            'realisatie' => 0, 
+            'realisatie' => 0,
             'max' => 1000,
             'acties' => array(),
             'deelnemer' => array(),
@@ -84,19 +88,13 @@ class ZPController {
                 SELECT d.*, a.id as aid, a.type, a.omschrijving, a.km, a.foto, NOW() - a.updatedate AS recency
                 FROM zlvrnpltn_deelnemers d 
                 LEFT JOIN zlvrnpltn_actie a ON a.deelnemer=d.id
+                WHERE YEAR(a.updatedate) = YEAR(NOW())
                 ORDER BY a.type DESC, a.km DESC
             ) q 
             LEFT JOIN zlvrnpltn_video v ON v.deelnemer=q.id
             WHERE q.code = :code
             GROUP BY q.id, q.aid;
         ');
-        // $stmt = $database->prepare('
-        //     SELECT d.*, a.id as aid, a.type, a.omschrijving, a.km, a.foto, NOW() - a.updatedate AS recency
-        //     FROM zlvrnpltn_deelnemers d 
-        //     LEFT JOIN zlvrnpltn_actie a ON a.deelnemer=d.id
-        //     WHERE d.code = :code
-        //     ORDER BY a.type DESC, a.km DESC
-        // ');
         $stmt->bindParam(':code', $code, \PDO::PARAM_STR);
         if ($stmt->execute() && $stmt->setFetchMode(\PDO::FETCH_ASSOC) == 1) {
             $rst['acties'] = $stmt->fetchAll();
@@ -109,12 +107,11 @@ class ZPController {
             unset($rst['deelnemer']['km']);
             unset($rst['deelnemer']['foto']);
             if (!$pass) unset($rst['deelnemer']['pass']);
-        }
-        else {
+        } else {
             return false;
         }
 
-        $rst['realisatie'] = 0; 
+        $rst['realisatie'] = 0;
         $newacties = array();
         foreach ($rst['acties'] as $actie) {
             unset($actie['id']);
@@ -136,14 +133,15 @@ class ZPController {
             $newacties[$actie['aid']] = $actie;
         }
         $rst['acties'] = $newacties;
-        $max = $rst['realisatie'] < $rst['doel'] ? $rst['doel'] : 50*round(pow(10, ceil(log10($rst['realisatie'])/0.1)*0.1)/50);
+        $max = $rst['realisatie'] < $rst['doel'] ? $rst['doel'] : 50 * round(pow(10, ceil(log10($rst['realisatie']) / 0.1) * 0.1) / 50);
         $rst['max'] = $max < 3000 ? $max : 1000 * ceil($max / 1000);
 
         return $rst;
     }
 
-    public function all($params) {
-        $yaml = "---\n" . 
+    public function all($params)
+    {
+        $yaml = "---\n" .
             "title: DE <span class=\"big\">1000</span> KM\n" .
             "subtitle: Het Zilveren Peloton\n" .
             "subsubtitle: Samen trappen tegen Kanker\n" .
@@ -174,14 +172,12 @@ class ZPController {
             GROUP BY d.id
             ORDER BY (CASE WHEN d.id = 1 THEN 0 ELSE 1 END), d.organisatie;
         ');
-        // $stmt->bindParam(':proj', $project, \PDO::PARAM_INT);
         if ($stmt->execute() && $stmt->setFetchMode(\PDO::FETCH_ASSOC) == 1) {
             $deelnemers = $stmt->fetchAll();
         }
         if ($params->cijfers) {
             foreach ($deelnemers as $d) {
                 $yaml .= "- {$d['organisatie']}: {$d['totaal']} kilometers uit {$d['aantal']} acties - [publieke link](./{$d['code']}) - [geheime link](./{$d['code']}/admin/{$d['pass']}) \n";
-                // $yaml .= '- [' . $d['organisatie'] . ' (' . $d['gemeente'] . ')](./' . $d['code'] . ')' . "\n";
             }
         }
 
@@ -190,44 +186,40 @@ class ZPController {
             'stats' => 'all',
             'yaml+md' => $yaml,
         );
-
     }
 
-    public function delete($params) {
+    public function delete($params)
+    {
         $list = ZPController::getStatus($params->code);
         if (!$list) return ZPController::unknown();
         $d = $list['deelnemer'];
 
-        $yaml = "---\n" . 
-        "title: {$d['organisatie']} uit {$d['gemeente']}\n" . 
-        "colour: white\n" .
-        "---\n\n";
+        $yaml = "---\n" .
+            "title: {$d['organisatie']} uit {$d['gemeente']}\n" .
+            "colour: white\n" .
+            "---\n\n";
         $yaml .= "---------------\n{.light}\n\n";
 
-        if (isset($_GET['aid']) && is_numeric($_GET['aid']) && isset($list['acties'][$_GET['aid']]) ) {
+        if (isset($_GET['aid']) && is_numeric($_GET['aid']) && isset($list['acties'][$_GET['aid']])) {
             $default = $list['acties'][$_GET['aid']];
             $default['deelnemer'] = $d['id'];
             $default['verwijderen'] = '';
             $titel = "# Verwijderen '{$default['omschrijving']}': ben je zeker?";
-        }
-        else return ZPController::unknown();
+        } else return ZPController::unknown();
         $formProperties = array(
             'aid' => array('type' => 'hidden'),
             'deelnemer' => array('type' => 'hidden'),
             'verwijderen' => array(
                 'label' => 'Typ hieronder het woord "verwijderen" als je deze actie wil verwijderen',
                 'description' => '',
-                'type' => 'text', 
+                'type' => 'text',
                 'required' => true,
                 'validation' => 'verwijderen'
             ),
             'submit' => 'Verwijderen',
         );
 
-        // echo "<pre>DEFAULT\n" . print_r($default, true) . '</pre>';
         list($valid, $actie, $html) = ZPController::processForm($_POST, $default, $formProperties);
-        // echo "<pre>ACTIE\n" . print_r($actie, true) . '</pre>';
-        // echo "<pre>VALID = " . ($valid ? "true" : "false") . '</pre>'; 
         if (isset($actie['verwijderen']) && $actie['verwijderen'] == 'verwijderen') {
             $database = Database::getInstance();
             $yaml .= "# Actie verwijderd \n\n";
@@ -236,8 +228,7 @@ class ZPController {
             $stmt->execute();
             $caching = date('U');
             $yaml .= "[Keer terug naar het overzicht](./{$d['code']}/admin/{$params->pass}?caching={$caching})\n";
-        }
-        else {
+        } else {
             $yaml .= $titel;
             $yaml .= $html;
         }
@@ -250,15 +241,16 @@ class ZPController {
         );
     }
 
-    public function input($params) {
+    public function input($params)
+    {
         $list = ZPController::getStatus($params->code);
         if (!$list) return ZPController::unknown();
         $d = $list['deelnemer'];
 
-        $yaml = "---\n" . 
-        "title: {$d['organisatie']} uit {$d['gemeente']}\n" . 
-        "colour: white\n" .
-        "---\n\n";
+        $yaml = "---\n" .
+            "title: {$d['organisatie']} uit {$d['gemeente']}\n" .
+            "colour: white\n" .
+            "---\n\n";
         $yaml .= "---------------\n{.light}\n\n";
 
         $default = array(
@@ -274,29 +266,28 @@ class ZPController {
             'deelnemer' => array('type' => 'hidden'),
             'type' => array(
                 'label' => 'Welk soort actie wil je ingeven?',
-                'type' => 'select', 
-                'options' => array('individueel', 'collectief'), 
+                'type' => 'select',
+                'options' => array('individueel', 'collectief'),
                 'required' => true
             ),
             'omschrijving' => array(
                 'label' => 'Korte omschrijving voor de actie',
                 'description' => 'Bijv. naam van de persoon of naam van het evenement bij een collectieve actie',
-                'type' => 'text', 
+                'type' => 'text',
                 'required' => true
             ),
             'km' => array(
                 'label' => 'Hoeveel kilometers zijn er gereden?',
-                'type' => 'number', 
+                'type' => 'number',
                 'required' => true
             ),
             'submit' => 'Actie toevoegen',
         );
-        if (isset($_GET['aid']) && is_numeric($_GET['aid']) && isset($list['acties'][$_GET['aid']]) ) {
+        if (isset($_GET['aid']) && is_numeric($_GET['aid']) && isset($list['acties'][$_GET['aid']])) {
             $default = $list['acties'][$_GET['aid']];
             $default['deelnemer'] = $d['id'];
             $titel = "# Aanpassen actie '{$default['omschrijving']}'";
-        }
-        else {
+        } else {
             $titel = '# Nieuwe actie toevoegen ';
         }
 
@@ -307,8 +298,7 @@ class ZPController {
                 $yaml .= "# Actie toegevoegd \n\n";
                 $SQL = 'INSERT IGNORE INTO zlvrnpltn_actie (deelnemer, type, omschrijving, km)
                     VALUES (:deelnemer, :type, :omschrijving, :km) ';
-            }
-            else {
+            } else {
                 $yaml .= "# Actie gewijzigd \n\n";
                 $SQL = "UPDATE zlvrnpltn_actie SET deelnemer=:deelnemer, type=:type, omschrijving=:omschrijving, km=:km, updatedate=NOW()
                     WHERE id={$actie['aid']} ";
@@ -321,8 +311,7 @@ class ZPController {
             $stmt->execute();
             $caching = date('U');
             $yaml .= "[Keer terug naar het overzicht](./{$d['code']}/admin/{$params->pass}?caching={$caching})\n";
-        }
-        else {
+        } else {
             $yaml .= $titel;
             $yaml .= $html;
         }
@@ -335,7 +324,8 @@ class ZPController {
         );
     }
 
-    public static function processForm($post, $default, $formProperties) {
+    public static function processForm($post, $default, $formProperties)
+    {
         $valid = false;
         $data = array();
         $html = '';
@@ -347,9 +337,7 @@ class ZPController {
             $info = array(
                 'type' => $field == 'submit' ? 'submit' : 'text',
                 'value' => htmlentities(
-                    isset($post[$field.$HASH]) ? $post[$field.$HASH] : 
-                        (isset($get[$field]) ? $get[$field] : 
-                        (isset($default[$field]) ? $default[$field] : '') )
+                    isset($post[$field . $HASH]) ? $post[$field . $HASH] : (isset($get[$field]) ? $get[$field] : (isset($default[$field]) ? $default[$field] : ''))
                 ),
                 'label' => '',
                 'options' => array(),
@@ -365,15 +353,13 @@ class ZPController {
                         $info[$key] = $value;
                     }
                 }
-            }
-            else {
+            } else {
                 $info['label'] = trim('' . htmlentities($param));
             }
             if ($info['type'] == 'submit') {
                 $info['value'] = $info['label'];
                 $info['class'] .= ' btn';
-            }
-            else if ($info['type'] == 'textarea') {
+            } else if ($info['type'] == 'textarea') {
                 $info['rows'] = 5;
                 $info['cols'] = 25;
             }
@@ -394,22 +380,20 @@ class ZPController {
                     $alternative = str_replace(',', '.', $info['value']);
                     if (is_numeric($alternative)) {
                         $form[$field]['value'] = $alternative;
-                    }
-                    else {
+                    } else {
                         $error = true;
                     }
-                }
-                else if ($info['required'] && $info['value']==0) {
+                } else if ($info['required'] && $info['value'] == 0) {
                     $error = true;
                 }
             }
-            if ($info['required'] && isset($post[$field.$HASH]) && trim($info['value']) == '') {
+            if ($info['required'] && isset($post[$field . $HASH]) && trim($info['value']) == '') {
                 $error = true;
             }
-            if ($info['required'] && isset($post[$field.$HASH]) && isset($info['validation']) && $info['validation'] != '' && trim($info['value']) != $info['validation']) {
+            if ($info['required'] && isset($post[$field . $HASH]) && isset($info['validation']) && $info['validation'] != '' && trim($info['value']) != $info['validation']) {
                 $error = true;
             }
-            if ($info['required'] && $info['type']=='checkbox' && $info['value'] != 1) {
+            if ($info['required'] && $info['type'] == 'checkbox' && $info['value'] != 1) {
                 $error = true;
             }
             $form[$field]['error'] = $error;
@@ -417,69 +401,63 @@ class ZPController {
                 $correct++;
             }
         }
-        if (isset($post['submit'.$HASH]) && $correct == count($form)) {
+        if (isset($post['submit' . $HASH]) && $correct == count($form)) {
             $valid = true;
             foreach ($default as $key => $value) {
                 $data[$key] = isset($form[$key]) ? $form[$key]['value'] : $value;
             }
             $html = '';
-        }
-        else {
+        } else {
             // create html
             $html = '';
             $html .= '<form method="post">' . "\n";
             foreach ($form as $field => $info) {
                 if ($info['error']) $info['class'] .= ' error';
                 $html .= '<div>';
-                $label = '<label class="'.$info['type'].'" for="'.$field.$HASH.'">'.$info['label'];
+                $label = '<label class="' . $info['type'] . '" for="' . $field . $HASH . '">' . $info['label'];
                 if ($info['required']) $label .= ' <span class="required">*</span>';
-                $label .='</label>';
+                $label .= '</label>';
                 if ($info['type'] == 'textarea') {
-                    $element = '<textarea '.(trim($info['class']) != '' ? 'class="'.trim($info['class']).'" ' : '').'id="'.$field.$HASH.'" name="'.$field.$HASH.'" rows="'.$info['rows'].'" cols="'.$info['cols'].'">'.$info['value'].'</textarea>';
-                }
-                else {
+                    $element = '<textarea ' . (trim($info['class']) != '' ? 'class="' . trim($info['class']) . '" ' : '') . 'id="' . $field . $HASH . '" name="' . $field . $HASH . '" rows="' . $info['rows'] . '" cols="' . $info['cols'] . '">' . $info['value'] . '</textarea>';
+                } else {
                     $html_type = $info['type'];
                     $extra = '';
                     if ($info['type'] == 'number') {
                         $html_type = 'text';
                     }
-                    $element = '<input type="'.$html_type.'" '.(trim($info['class']) != '' ? 'class="'.trim($info['class']).'" ' : '').'id="'.$field.$HASH.'"'.$extra.' name="'.$field.$HASH.'" value="'.$info['value'].'" />';
+                    $element = '<input type="' . $html_type . '" ' . (trim($info['class']) != '' ? 'class="' . trim($info['class']) . '" ' : '') . 'id="' . $field . $HASH . '"' . $extra . ' name="' . $field . $HASH . '" value="' . $info['value'] . '" />';
                 }
-                
+
                 if ($info['type'] == 'submit') {
                     $html .= $element;
-                }
-                else if ($info['type'] == 'radio') {
+                } else if ($info['type'] == 'radio') {
                     $html .= '<p>' . $info['label'] . '</p>';
                     foreach ($info['options'] as $option) {
-                        $html .= '<input type="radio" id="'.$option.'" name="'.$field.$HASH.'" value="'.$option.'"'.($info['value'] == $option ? ' checked' : '').'>';
-                        $html .= '<label for="'.$option.'">'.$option.'</label>';
-
+                        $html .= '<input type="radio" id="' . $option . '" name="' . $field . $HASH . '" value="' . $option . '"' . ($info['value'] == $option ? ' checked' : '') . '>';
+                        $html .= '<label for="' . $option . '">' . $option . '</label>';
                     }
-                }
-                else if ($info['type'] == 'select') {
+                } else if ($info['type'] == 'select') {
                     $html .= $label;
-                    $html .= '<select id="'.$field.$HASH.'" name="'.$field.$HASH.'">' . "\n";
+                    $html .= '<select id="' . $field . $HASH . '" name="' . $field . $HASH . '">' . "\n";
                     foreach ($info['options'] as $option) {
-                        $html .= '<option value="'.$option.'"'.($info['value'] == $option ? ' selected' : '').'>' . $option . '</option>' . "\n";
+                        $html .= '<option value="' . $option . '"' . ($info['value'] == $option ? ' selected' : '') . '>' . $option . '</option>' . "\n";
                     }
                     $html .= '</select>' . "\n";
-                }
-                else if ($info['type'] == 'checkbox') {
+                } else if ($info['type'] == 'checkbox') {
                     $html .= $element . ' ' . $label;
-                }
-                else {
+                } else {
                     $html .= $label . ' ' . $element;
                 }
-                $html .='</div>';
+                $html .= '</div>';
                 $html .= "\n";
-            }    
+            }
             $html .= '</form>' . "\n";
         }
         return array($valid, $data, $html);
     }
 
-    public function changeVideo($params) {
+    public function changeVideo($params)
+    {
         $list = ZPController::getStatus($params->code, true);
         if (!$list) return ZPController::unknown();
         $d = $list['deelnemer'];
@@ -496,40 +474,38 @@ class ZPController {
         return $this->overview($params);
     }
 
-    public function overview($params) {
+    public function overview($params)
+    {
         $list = ZPController::getStatus($params->code, true);
         if (!$list) return ZPController::unknown();
         $d = $list['deelnemer'];
 
         if ($d['pass'] != $params->pass && $params->pass != '4ll4reas') return ZPController::unknown(true);
 
-        $yaml = "---\n" . 
-            "title: {$d['organisatie']} uit {$d['gemeente']}" . 
+        $yaml = "---\n" .
+            "title: {$d['organisatie']} uit {$d['gemeente']}" .
             "\nsubtitle: Administratie\n" .
             "colour: white\n" .
             "---\n\n";
 
         $yaml .= "---------------\n{.light}\n\n";
-        if ($params->mode == 'admin') { 
+        if ($params->mode == 'admin') {
             $yaml .= "# Kilometers \n\n";
         }
         if ($list['realisatie'] == 0) {
             $yaml .= "Help {$d['organisatie']} om aan het doel van {$list['doel']} kilometers te komen!\n\n";
-        }
-        else {
+        } else {
             $yaml .= "{$d['organisatie']} verzamelde al heel wat kilometers dankzij deze acties: \n";
             foreach ($list['acties'] as $actie) {
-                if ($params->mode == 'admin') { 
-                    $edit = " [[aanpassen]](./{$d['code']}/input/{$params->pass}?aid={$actie['aid']})"; 
-                    $edit .= " [[verwijderen]](./{$d['code']}/delete/{$params->pass}?aid={$actie['aid']})"; 
-                }
-                else {
+                if ($params->mode == 'admin') {
+                    $edit = " [[aanpassen]](./{$d['code']}/input/{$params->pass}?aid={$actie['aid']})";
+                    $edit .= " [[verwijderen]](./{$d['code']}/delete/{$params->pass}?aid={$actie['aid']})";
+                } else {
                     $edit = '';
                 }
                 if ($actie['type'] == 'individueel') {
                     $yaml .= "- {$actie['omschrijving']} fietste {$actie['km']} km! {$edit}\n";
-                }
-                else {
+                } else {
                     $yaml .= "- Met onze actie \"{$actie['omschrijving']}\" kwamen er samen ook {$actie['km']} km bij {$edit}\n";
                 }
             }
@@ -538,7 +514,7 @@ class ZPController {
             $yaml .= "\n\n<a href=\"./{$d['code']}/input/{$params->pass}\" class=\"btn btn-sm\">Voeg extra kilometers toe!</a>\n";
         }
 
-        if ($params->mode == 'admin') { 
+        if ($params->mode == 'admin') {
             $yaml .= "\n\n# Video kiezen \n\n";
 
             list($videos, $videoMap) = ZPController::getVideos('', $params->code);
@@ -546,15 +522,13 @@ class ZPController {
             foreach ($videoMap as $videoCode => $videoInfo) {
                 if ($videoCode == $d['video']) {
                     $extra = " btn-b";
-                }
-                else {
+                } else {
                     $extra = "";
                 }
                 $yaml .= "<a class=\"btn btn-sm{$extra}\" href=\"./{$d['code']}/changevideo/{$params->pass}/{$videoCode}\">{$videoInfo['naam']}</a>\n";
             }
             $yaml .= "</p>\n";
             $yaml .= "<p>Wil je liever werken met jouw zelfgemaakte video? Stuur ons jouw video(s) door via <a href=\"https://zilverenpeloton.wetransfer.com/\">ZilverenPeloton.WeTransfer.com</a>. Jouw video komt dan ten laatste volgende week online!</p>";
-
         }
 
 
@@ -564,16 +538,16 @@ class ZPController {
             'yaml+md' => $yaml,
             'menu' => ZPController::dynamicMenu($d),
         );
-
     }
 
-    public function video($params) {
+    public function video($params)
+    {
         $list = ZPController::getStatus($params->code);
         if (!$list) return ZPController::unknown();
         $d = $list['deelnemer'];
         list($videos, $videoMap) = ZPController::getVideos($params->domain, $params->code);
 
-        $yaml = "---\n" . 
+        $yaml = "---\n" .
             "title: Fiets mee met {$d['organisatie']}\n" .
             "colour: dark\n" .
             "---\n\n";
@@ -584,17 +558,17 @@ class ZPController {
         $yaml .= '</video></p><hr />';
         $yaml .= '<p class="videos">';
         foreach ($videoMap as $videoCode => $videoInfo) {
-            $yaml .= "<a class=\"btn btn-sm\" href=\"javascript:playVideo('".$videoCode."')\">{$videoInfo['naam']}</a>\n";
+            $yaml .= "<a class=\"btn btn-sm\" href=\"javascript:playVideo('" . $videoCode . "')\">{$videoInfo['naam']}</a>\n";
         }
         $yaml .= '</p>';
 
         $jscript = "\n";
         $jscript .= "let media = document.querySelector('video'); \n";
         $jscript .= "let domain = '{$params->domain}'; \n";
-        $jscript .= "let wzc = '".$list['deelnemer']['code']."'; \n";
-        $jscript .= "let wzcFull = '".$list['deelnemer']['organisatie']."'; \n";
-        $jscript .= "let status = ".\json_encode($list)."; \n";
-        $jscript .= "let videoMap = ".\json_encode($videoMap)."; \n";
+        $jscript .= "let wzc = '" . $list['deelnemer']['code'] . "'; \n";
+        $jscript .= "let wzcFull = '" . $list['deelnemer']['organisatie'] . "'; \n";
+        $jscript .= "let status = " . \json_encode($list) . "; \n";
+        $jscript .= "let videoMap = " . \json_encode($videoMap) . "; \n";
         $jscript .= "update();\n";
 
         return array(
@@ -607,5 +581,4 @@ class ZPController {
             'inlinescript' => $jscript,
         );
     }
-
 }
