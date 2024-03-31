@@ -83,17 +83,18 @@ class ZPController
 
         $database = Database::getInstance();
         $stmt = $database->prepare('
-            SELECT q.*, max(v.id) as vid, v.video 
+            SELECT q.*, a.*
             FROM (
-                SELECT d.*, a.id as aid, a.type, a.omschrijving, a.km, a.foto, NOW() - a.updatedate AS recency
-                FROM zlvrnpltn_deelnemers d 
-                LEFT JOIN zlvrnpltn_actie a ON a.deelnemer=d.id
-                WHERE YEAR(a.updatedate) = YEAR(NOW())
-                ORDER BY a.type DESC, a.km DESC
-            ) q 
-            LEFT JOIN zlvrnpltn_video v ON v.deelnemer=q.id
-            WHERE q.code = :code
-            GROUP BY q.id, q.aid;
+            SELECT d.*, max(v.id) as vid, v.video
+            FROM zlvrnpltn_deelnemers d 
+            LEFT JOIN zlvrnpltn_video v ON v.deelnemer =  d.id
+            WHERE d.code = "test" ) q 
+            LEFT JOIN (
+                SELECT deelnemer, id as aid, type, omschrijving, km, foto, NOW() - updatedate AS recency
+                FROM zlvrnpltn_actie 
+                WHERE YEAR(updatedate) = YEAR(NOW()) 
+                ORDER BY type DESC, km DESC
+            ) a ON a.deelnemer = q.id;
         ');
         $stmt->bindParam(':code', $code, \PDO::PARAM_STR);
         if ($stmt->execute() && $stmt->setFetchMode(\PDO::FETCH_ASSOC) == 1) {
@@ -107,8 +108,6 @@ class ZPController
             unset($rst['deelnemer']['km']);
             unset($rst['deelnemer']['foto']);
             if (!$pass) unset($rst['deelnemer']['pass']);
-        } else {
-            return false;
         }
 
         $rst['realisatie'] = 0;
