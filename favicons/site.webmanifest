@@ -1,0 +1,19 @@
+{
+    "name": "Kom op tegen Kanker",
+    "short_name": "Kom op tegen Kanker",
+    "icons": [
+        {
+            "src": "https://zlvrnpltn.be/favicons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://zlvrnpltn.be/favicons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#3E2B2E",
+    "background_color": "#3E2B2E",
+    "display": "standalone"
+}

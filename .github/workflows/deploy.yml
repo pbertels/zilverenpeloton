@@ -11,14 +11,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install SSH Key
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: imagick
+
+      - name: Install PHP dependencies with Cmposer
+        uses: "ramsey/composer-install@v3"
+
+      - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: unnecessary
 
-      - name: Adding Known Hosts
+      - name: Add known hosts
         run: ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/${{ secrets.SSH_USER }}/wwwroot/
+      - name: Copy files to server with rsync
+        run: rsync -avz --exclude=.git --exclude=.github --exclude=composer.json --exclude=composer.lock -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/${{ secrets.SSH_USER }}/wwwroot/

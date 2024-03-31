@@ -1,0 +1,12 @@
+Video-bestanden kunnen hier toegevoegd worden. 
+Bestandsnamen starten met een code (kleine letters of cijfers) gevolgd door twee streepjes (--) en een naam zonder spaties.
+
+Bijvoorbeeld:
+
+  gent--Fietsroute-door-Gent.mp4
+  limburg1--Fietsen-door-de-Bomen.mp4
+  limburg2--Fietsen-door-het-Water-in-Bokrijk.mp4
+  limburg3--Waterlandschap-van-de-Wijers.mp4
+  rvv--Ronde-van-Vlaanderen-Cyclo.mp4
+
+

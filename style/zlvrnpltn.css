@@ -1,0 +1,258 @@
+@font-face {
+	font-family: 'Antartida Rounded Medium';
+	src: url('https://zilverenpeloton.be/style/antartida-rounded-medium.eot'),
+		 /* url('http://zlvrnpltn.local/style/antartida-rounded-medium.eot'),
+		 url('http://zlvrnpltn.local/style/antartida-rounded-medium.otf') format('opentype'), */
+		 url('https:///zilverenpeloton.be/style/antartida-rounded-medium.otf') format('opentype');
+}
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+body{font-family:'Antartida Rounded Medium',Arial, Helvetica, sans-serif; line-height: 180%}
+/** Based on MIN.CSS by Owen Versteeg **/
+/* Generic */
+body,textarea,input,select{background:0;border-radius:0;font:21px;margin:0}
+.addon,.btn-sm,.nav,textarea,input,select{outline:0;font-size:18px}.smooth{transition:all .2s}
+.btn,.nav a{text-decoration:none}
+.container{margin:0 20px;width:auto}
+.container.fullwidth{margin:0;width:auto}
+.section{margin:0; padding:0.2em 1em 4em;clear:both}
+#section_top{padding-bottom:0}
+.section.fullwidth{padding: 0}
+@media(min-width:1310px){.container,.col.hero h1{margin-left:auto;margin-right:auto;width:1270px}}
+
+/* Buttons */
+.btn{background:#50b4e6;border-radius:2em;border:0;color:#fff;cursor:pointer;display:inline-block;margin:2px 20px 12px 0;padding:10px 24px 12px;font-weight:700}
+.btn:hover{background:#7dc7ec}
+.btn:active,.btn:focus{background:#7dc7ec}
+.btn-a{background:#fff}.btn-a:hover{background:#fff}.btn-a:active,.btn-a:focus{background:#fff}
+.btn-b{background:#3c5}.btn-b:hover{background:#2b4}.btn-b:active,.btn-b:focus{background:#2a4}
+.btn-c{background:#d33}.btn-c:hover{background:#c22}.btn-c:active,.btn-c:focus{background:#b22}
+.btn-sm{border-radius:2em;padding:5px 11px}
+
+/* Headings */
+h1{font-size:2.2em}
+h2{font-size:2em}
+h3{font-size:1.8em}
+p{font-size: 1.3em; max-width: 25em; margin: auto}
+p.videos{margin-top: 4em}
+p.intro{font-size: 160%; max-width: 18em; padding: 0.4em}
+h1,h3,h4,h5,h6,p{color:#222}
+h2{color:#fff}
+h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{text-decoration: none}
+h1 span {font-size: 150%}
+h1, h2, h3, p {text-align:center}
+
+/* Forms */
+label>*{display:inline}
+form>*{display:block;margin-bottom:10px}
+textarea,input,select{border:1px solid #ccc;padding:8px}
+textarea:focus,input:focus,select:focus{border-color:#5ab}
+.error{border-color:#f00}
+textarea,input[type=text]{width:13em;outline:0}
+.addon{box-shadow:0 0 0 1px #ccc;padding:8px 12px}
+
+input, select, input[type=text]{display: block; width: 100%}
+label{width: 100%}
+
+/* Navigation */
+.nav {
+	background-image: url('https:///zilverenpeloton.be/images/2023.png');
+	background-repeat: no-repeat;
+	background-size: 120px;
+	background-position: 100% 0%; 
+}
+/*.nav,*/.nav.current,.nav a:hover{background:#000;color:#fff}
+.nav{height:150px;padding:0;margin:0}
+.nav a{font-weight:700}
+.nav .spacer{display:none}
+.nav span{margin:0;padding:0}
+.btn.btn-close {
+	padding:19px 18px 0px;
+	margin:-78px 7px;
+	border:0;
+	color:#fff;
+	background:none;float:right;
+	font-size:25px;
+	display:none
+}
+
+/* Navigation with background */
+body {
+	padding: 0;
+	background: #50b4e6;
+	background-image: linear-gradient(0deg, rgba(80,180,230,1) 0%, rgba(140,210,240,1) 100%);
+	background-repeat: no-repeat;
+	background-size: auto 80vh;
+	background-position: 50% 0%; 
+}
+body.video {background: #3e2b2e; color: #fff}
+.video h1 {color: #fff}
+body.video p.nomargins{margin: 0}
+.toplogo, .topright { position: absolute }
+.toplogo { top: 0; left: 0 }
+.topright { top: 0; right: 0 }
+.bar { 
+	margin: 0;
+	padding: 2vh 0 0 0;
+	position: absolute;
+	width: 100%;
+	height: 10vh;
+	left: 0; 
+	bottom: 0
+}
+.popup {
+	margin: 0;
+	padding: 1em;
+	position: absolute;
+	bottom: 20vh;
+	left: 110vw;
+	width: 20em;
+	border-radius: 2em;
+	background: #50b4e6;
+	line-height: 175%;
+}
+.visible {
+	animation-name: popup;
+  	animation-duration: 10s;
+}
+@keyframes popup {
+	from {left: 110vw; font-size: 1em}
+	to {left: 20vw; font-size: 2.25em}
+}
+.emoji {
+	margin: 0;
+	padding: 1em;
+	position: absolute;
+	bottom: 30vh;
+	left: -20vw;
+	height: 10vw;
+	width: 10vw;
+	background: #fff;
+	border-radius: 50%;
+}
+.fly {
+	animation-name: fly;
+  	animation-duration: 5s;
+}
+@keyframes fly {
+	from {left: 0vw; bottom: 30vh}
+	to {left: 100vw; bottom: 100vh}
+}
+
+
+@media(max-width:870px){ body{background-size: auto 60vh;} }
+@media(max-width:480px){ body{font-size: 90%} }
+
+/* Navigation / logo toggle */
+.nav a{margin:0;padding:0;border-radius:2em}
+.nav .logo-base{display:inline-block}
+.nav .logo-nav{display:none}
+.logo-base img,.logo-nav img{width:auto;max-height:150px;vertical-align: middle}
+.logo-base img{margin-right:2em}
+@media(max-width:870px){
+	.btn.btn-close{display:block}
+	.nav{overflow:hidden}
+	.nav:active,.nav:focus{height:auto}
+	.nav div:before{border-bottom:10px double;border-top:3px solid;content:'';float:right;height:4px;position:relative;right:23px;top:100px;width:20px}
+	.nav div:before{background:#000}
+	.nav a{display:block;padding:0;width:70%;margin:0}
+}
+@media(max-width:480px){
+	body{background-size: auto 40vh;} 
+	.logo-base img,.logo-nav img{width:auto;max-height:100px;}
+	.nav{height:100px;background-size: 100px;}
+	.nav div:before{top:52px}
+}
+/* Navigation / colour scheme Zilveren Peloton */
+.nav a{padding: 0.3em 0.8em; margin: 0 1em; color:#fff; background: rgb(252, 98, 8) }
+.nav a:hover{color:#222; background: #fff }
+.nav a.logo{padding: 0; margin: 0 0 2em 0; background:none}
+@media(max-width:870px){
+	.nav div:before{background:#50b4e6;border-color:#fff}
+	.nav:focus div:before{border-color:#fcb514}
+	.nav a{color:#fff}
+	.nav:active,.nav:focus,.nav:focus div:before,.nav:focus a,.nav:focus a:hover{background:#3e2b2e}
+	.nav:focus a:hover,.btn.btn-close{color:#fcb514}
+}
+
+/* Tables */
+.table th,.table td{padding:.5em;text-align:left}
+.table tbody>:nth-child(2n-1){background:#ddd}
+table{width:100%; height: 7vh}
+table .right {text-align: right}
+table .left {text-align: left}
+table .yellow {background: #fcb514f0; color: #222}
+table .white {background: #fff; color: #222}
+table .blue {background: #50b4e6}
+table .darkblue {background: #50a0e6}
+
+/* Grid */
+.row{margin:0; overflow:auto}
+.col{float:left}
+.c12{width:100%}.c11{width:91.6%}.c10{width:83.3%}.c9{width:74.9%}.c8{width:66.6%}.c7{width:58.3%}.c6{width:49.9%}.c5{width:41.6%}.c4{width:33.3%}.c3{width:24.9%}.c2{width:16.6%}.c1{width:8.3%}
+/* .row.hero{padding-top:3em} */
+@media(max-width:870px){
+	.c12,.c11,.c10,.c9,.c8,.c7{width:100%}
+	.c6,.c5,.c4,.c3,.c2,.c1{width:100%}
+	/* .c6{width:100%}.c5{width:83.3%}.c4{width:66.6%}.c3{width:49.9%}.c2{width:33.3%}.c1{width:16.6%} */
+}
+@media(max-width:480px){.row .col{width:100%}}
+.row.video {height: 80vh}
+.row.r50pc {height: 35vh}
+
+
+
+/* Background colours */
+div.bar {background: #fc6208; color: #fff}
+div.bar, .bar p, .bar h1,.bar h2,.bar h3,.bar h4,.bar h5,.bar h6{color: #fff}
+.bar a,.bar a:hover { color: #3e2b2e}
+
+div.dark {background: #3e2b2e; color: #fff}
+div.dark, .dark p, .dark a,.dark h1,.dark h2,.dark h3,.dark h4,.dark h5,.dark h6{color: #fff}.dark a:hover { color: #fcb514}
+
+div.light {background: #fff}
+div.light, .light p, .light a,.light h1,.light h2,.light h3,.light h4,.light h5,.light h6{color: #222}.light a:hover { color: #666}
+
+/* div.white {background: #fff} */
+div.white, .white p, .white a,.white h1,.white h2,.white h3,.white h4,.white h5,.white h6{color: #222}.white a:hover { color: #666}
+.white p.intro {color: #fff}
+
+div.green {background: #11edd7}
+div.green, .green p, .green a,.green h1,.green h2,.green h3,.green h4,.green h5,.green h6{color: #222}.green a:hover { color: #666}
+
+
+a.btn:hover{color:#fff}
+
+
+.footer{font-size:90%}
+.footer p.copy{font-size:90%;text-align:center;margin:2em auto}.footer p.copy a {text-decoration: none}.footer p.copy a:hover { color: #666}
+
+/* Images */
+img.icon{width:40px}
+img.icon-sm{width:1.5em; margin:0 0.5em; position:relative; top:0.3em}
+.row.spacious{padding:1em 0 2em}
+.row.spacious a{text-decoration: none}
+.footer h3{color: #fc6208}
+
+/* Footer */
+.inset{margin: 1.2em 0.5em; padding: 1em}
+.flex{display: flex}
+.flex .inset{width: 50%; margin: 1.2em 1.5em}
+.social{margin: 1em 0; float: left; width:24%; text-align: center}
+@media(max-width:870px){
+	.flex .inset{margin: 1.2em 0.5em}
+}
+@media(max-width:480px){
+	.flex{display: block; overflow:hidden}
+	.flex .inset{width: 90%; margin: 1.2em auto}
+}
+
+@media(max-width:480px) {
+	body,textarea,input,select{font-size:18px}
+	.addon,.btn-sm,.btn,.nav,textarea,input,select{font-size:15px}
+	h1{font-size:1.7em}
+	h2{font-size:1.5em}
+	p{font-size:1.1em}
+}

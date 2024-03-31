@@ -1,0 +1,11 @@
+{
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:pbertels/smartwebsite.git"
+		}
+	],
+	"require": {
+		"pbertels/smartwebsite": "@dev"
+	}
+}

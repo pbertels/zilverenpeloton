@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+	<head>
+		<link rel="shortcut icon" href="./favicons/favicon.ico">
+		<link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+		<link rel="manifest" href="./favicons/site.webmanifest">
+		<link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#fcb514">
+		<link rel="shortcut icon" href="./favicons/favicon.ico">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="theme-color" content="#fcb514">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="./style/zlvrnpltn.css" rel="stylesheet" type="text/css">
+{% if navigator.browser_name == "Internet Explorer" and navigator.browser_version <= 9 %}
+<style>
+	.row,.col,p{overlow-x:hidden}
+	.row .col{width:100%;padding:1.5em 1em}
+	.c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8,.c8,.c9,.c10,.c11,.c12{width:95%}
+	div.old_ie_fallback{margin:0;padding:0}
+</style>
+{% endif %}
+{% if styles_extra %}{% for s in styles_extra %}
+		<link rel="stylesheet" href="{{ s }}" type="text/css">
+{% endfor %}{% endif %}
+{% if javascript_top %}{% for s in javascript_top %}
+		<script nonce="{{ nonce }}" src="{{ s }}" ></script>
+{% endfor %}{% endif %}
+{% if navigator.browser_name == "Internet Explorer" and navigator.browser_version == 6 %}
+		<script src="./style/supersleight-min.js"></script>
+{% endif %}
+		<title>{{ site.name }}</title>
+	</head>
+	<body class="{{code}}">
+<nav class="nav" tabindex="-1" onclick="this.focus()">
+	{% if navigator.browser_name == "Internet Explorer" and navigator.browser_version <= 9 %}
+	<div class="container fullwidth old_ie_fallback {{colour}}">
+	{% else %}
+	<div class="container fullwidth">
+	{% endif %}
+		<a href="{{ site.home }}" class="logo" id="logo_back_to_homepage">
+			<span class="logo-base"><img src="./images/zlvrnpltn.png" height="150" alt="Logo"></span>
+		</a><span class="spacer">&nbsp;</span>
+{% for menuitem in menu %}
+		<a href="{{ menuitem.link }}" id="menu_{{ menuitem.title | downcase | replace: " ", "_" }}">{{ menuitem.title }}</a><span>&nbsp;</span>
+{% endfor %}
+		<!-- <a href="https://www.komoptegenkanker.be/doe-een-gift" id="gift">doe een gift</a><span>&nbsp;</span> -->
+</div>
+</nav>
+<button class="{{colour}} btn btn-close" id="navigation_toggle">×</button>
+<!-- <main> -->
+<div class="section" id="section_top"><div class="container">
+	<div class="row hero">
+		<div class="col c12 hero">
+			<h1>{{title}}</h1>
+			{% if subtitle != empty %}<h2>{{subtitle}}</h2>{% endif %}
+			{% if subsubtitle != empty %}<h3>{{subsubtitle}}</h3>{% endif %}
+		</div>
+	</div>
+</div></div>
+<div class="section {{ colour }}"><div class="container">
+		
+{{ html }}
+
+</div></div>
+<!-- </main> -->
+{% include footer.html %}
+{% if javascript %}
+	{% for s in javascript %}
+<script nonce="{{ nonce }}" src="{{ s }}" ></script>
+	{% endfor %}
+{% endif %}
+{% if inlinescript %}
+<script nonce="{{ nonce }}">
+	{{ inlinescript }}
+</script>
+{% endif %}
+	</body>
+</html>
