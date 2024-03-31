@@ -88,7 +88,7 @@ class ZPController
             SELECT d.*, max(v.id) as vid, v.video
             FROM zlvrnpltn_deelnemers d 
             LEFT JOIN zlvrnpltn_video v ON v.deelnemer =  d.id
-            WHERE d.code = "test" ) q 
+            WHERE d.code = :code ) q 
             LEFT JOIN (
                 SELECT deelnemer, id as aid, type, omschrijving, km, foto, NOW() - updatedate AS recency
                 FROM zlvrnpltn_actie 
