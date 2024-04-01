@@ -1,10 +1,11 @@
 <?php
 
-
 ini_set("pcre.jit", "0");
 require_once './settings.php';
 require_once './ZPController.php';
-require_once './vendor/pbertels/smartwebsite/src/Database.php';
+require_once './vendor/autoload.php';
+
+use PhpWebsite\Database;
 
 $database = PhpWebsite\Database::setParameters($DB_SERVERNAME, $DB_DATABASE, $DB_USERNAME, $DB_PASSWORD);
 
