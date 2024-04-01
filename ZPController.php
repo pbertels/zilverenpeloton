@@ -2,7 +2,7 @@
 
 namespace ZilverenPeloton;
 
-use SmartWebsite\Database;
+use PhpWebsite\Database;
 
 class ZPController
 {

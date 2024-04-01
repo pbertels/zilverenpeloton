@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bb9b3330b115bd930125cbfed98baf5",
+    "content-hash": "5dc052bcc03222d0a02cd8aca2aaa516",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -644,17 +644,17 @@
             "time": "2024-01-17T16:50:36+00:00"
         },
         {
-            "name": "pbertels/smartwebsite",
+            "name": "pbertels/phpwebsite",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pbertels/smartwebsite.git",
-                "reference": "b8717e73e6aa7df7d7ab9c28139bf99099eb37f4"
+                "url": "https://github.com/pbertels/phpwebsite.git",
+                "reference": "39b233b9764c15625d4341c4ab53e6c78cd87db6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pbertels/smartwebsite/zipball/b8717e73e6aa7df7d7ab9c28139bf99099eb37f4",
-                "reference": "b8717e73e6aa7df7d7ab9c28139bf99099eb37f4",
+                "url": "https://api.github.com/repos/pbertels/phpwebsite/zipball/39b233b9764c15625d4341c4ab53e6c78cd87db6",
+                "reference": "39b233b9764c15625d4341c4ab53e6c78cd87db6",
                 "shasum": ""
             },
             "require": {
@@ -675,15 +675,15 @@
             },
             "authors": [
                 {
-                    "name": "Peter Bertels",
-                    "email": "peter.bertels@norsu.eu"
+                    "name": "Peter Bertels"
                 }
             ],
-            "description": "Smart Website - multilingual markdown content - simple chatbot - easy PHP hooks",
+            "description": "Basic PHP Website - multilingual markdown content - simple chatbot - easy PHP hooks",
             "support": {
-                "source": "https://github.com/pbertels/smartwebsite/tree/main"
+                "source": "https://github.com/pbertels/phpwebsite/tree/main",
+                "issues": "https://github.com/pbertels/phpwebsite/issues"
             },
-            "time": "2023-10-12T10:47:35+00:00"
+            "time": "2024-04-01T08:27:33+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -967,7 +967,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pbertels/smartwebsite": 20
+        "pbertels/phpwebsite": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

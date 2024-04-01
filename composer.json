@@ -2,10 +2,10 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "git@github.com:pbertels/smartwebsite.git"
+			"url": "git@github.com:pbertels/phpwebsite.git"
 		}
 	],
 	"require": {
-		"pbertels/smartwebsite": "@dev"
+		"pbertels/phpwebsite": "@dev"
 	}
 }
