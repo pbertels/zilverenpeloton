@@ -25,6 +25,7 @@ $site->setTemplateDir('./template/');
 $stats = new StatisticsController($site, 'zlvrnpltn_stats');
 $site->setStatisticsController($stats);
 
+
 $site->setSectionSeparators(
     array(
         '!<hr />!',
