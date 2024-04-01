@@ -649,12 +649,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pbertels/phpwebsite.git",
-                "reference": "39b233b9764c15625d4341c4ab53e6c78cd87db6"
+                "reference": "f107b02020d09854f5cc4b37d4ad3d2b89535abc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pbertels/phpwebsite/zipball/39b233b9764c15625d4341c4ab53e6c78cd87db6",
-                "reference": "39b233b9764c15625d4341c4ab53e6c78cd87db6",
+                "url": "https://api.github.com/repos/pbertels/phpwebsite/zipball/f107b02020d09854f5cc4b37d4ad3d2b89535abc",
+                "reference": "f107b02020d09854f5cc4b37d4ad3d2b89535abc",
                 "shasum": ""
             },
             "require": {
@@ -670,7 +670,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "SmartWebsite\\": "src/"
+                    "PhpWebsite\\": "src/"
                 }
             },
             "authors": [
@@ -683,7 +683,7 @@
                 "source": "https://github.com/pbertels/phpwebsite/tree/main",
                 "issues": "https://github.com/pbertels/phpwebsite/issues"
             },
-            "time": "2024-04-01T08:27:33+00:00"
+            "time": "2024-04-01T08:41:31+00:00"
         },
         {
             "name": "psr/event-dispatcher",
