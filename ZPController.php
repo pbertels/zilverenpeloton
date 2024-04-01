@@ -527,7 +527,6 @@ class ZPController
                 $yaml .= "<a class=\"btn btn-sm{$extra}\" href=\"./{$d['code']}/changevideo/{$params->pass}/{$videoCode}\">{$videoInfo['naam']}</a>\n";
             }
             $yaml .= "</p>\n";
-            $yaml .= "<p>Wil je liever werken met jouw zelfgemaakte video? Stuur ons jouw video(s) door via <a href=\"https://zilverenpeloton.wetransfer.com/\">ZilverenPeloton.WeTransfer.com</a>. Jouw video komt dan ten laatste volgende week online!</p>";
         }
 
 
