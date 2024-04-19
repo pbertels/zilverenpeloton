@@ -546,7 +546,7 @@ class ZPController
         $list = ZPController::getStatus($params->code);
         if (!$list) return ZPController::unknown();
         $d = $list['deelnemer'];
-        list($videos, $videoMap) = ZPController::getVideos($params->domain, $params->code);
+        list($videos, $videoMap) = ZPController::getVideos($params->domain, $list['deelnemer']['playlist']);
 
         $yaml = "---\n" .
             "title: Fiets mee met {$d['organisatie']}\n" .
