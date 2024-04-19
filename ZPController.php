@@ -149,7 +149,7 @@ class ZPController
 
         if (!$params->cijfers) {
             $yaml .= "### Wat? \n\n";
-            $yaml .= "{.intro} Bewoners uit verschillende woonzorgcentra zetten drie dagen lang, van 15 tot en met 17 mei, de voeten op de trappers. Samen proberen ze per woonzorgcentrum 1000 km op de teller te krijgen. En dat ten voordele van kankeronderzoek. \n\n";
+            $yaml .= "{.intro} Bewoners uit verschillende woonzorgcentra zetten, samen met heel wat vrijwilligers, de voeten op de trappers. Samen proberen ze per woonzorgcentrum 1000 km op de teller te krijgen. En dat ten voordele van kankeronderzoek. \n\n";
             $yaml .= "### Waarom? \n\n";
             $yaml .= "{.intro} &lsquo;Je hebt kanker.&rsquo; Het verdict valt elk jaar voor meer dan 40.000 Vlamingen. \n\n";
             $yaml .= "Hoewel kanker steeds beter kan worden behandeld, overleeft &eacute;&eacute;n op drie de ziekte niet. Wie kanker wel overleeft, ondervindt vaak nog langdurige gevolgen. Kankeronderzoek blijft dus broodnodig. \n\n";
@@ -167,7 +167,8 @@ class ZPController
         $stmt = $database->prepare('
             SELECT d.*, ROUND(10 * SUM(a.km)) / 10 AS totaal, COUNT(a.id) AS aantal
             FROM zlvrnpltn_deelnemers d
-            INNER JOIN zlvrnpltn_actie a ON d.id=a.deelnemer
+            LEFT JOIN zlvrnpltn_actie a ON d.id=a.deelnemer
+            WHERE (d.id = 1 OR d.id > 5)
             GROUP BY d.id
             ORDER BY (CASE WHEN d.id = 1 THEN 0 ELSE 1 END), d.organisatie;
         ');
@@ -176,7 +177,9 @@ class ZPController
         }
         if ($params->cijfers) {
             foreach ($deelnemers as $d) {
-                $yaml .= "- {$d['organisatie']}: {$d['totaal']} kilometers uit {$d['aantal']} acties - [publieke link](./{$d['code']}) - [geheime link](./{$d['code']}/admin/{$d['pass']}) \n";
+                $yaml .= "- {$d['organisatie']}: {$d['totaal']} kilometers uit {$d['aantal']} acties - [publieke link](./{$d['code']})";
+                if ($params->secret) $yaml .= " - [geheime link](./{$d['code']}/admin/{$d['pass']})";
+                $yaml .= "\n";
             }
         }
 
@@ -516,7 +519,7 @@ class ZPController
         if ($params->mode == 'admin') {
             $yaml .= "\n\n# Video kiezen \n\n";
 
-            list($videos, $videoMap) = ZPController::getVideos('', $params->code);
+            list($videos, $videoMap) = ZPController::getVideos('', $list['deelnemer']['playlist']);
             $yaml .= '<p>';
             foreach ($videoMap as $videoCode => $videoInfo) {
                 if ($videoCode == $d['video']) {
