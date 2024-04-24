@@ -177,7 +177,7 @@ class ZPController
         }
         if ($params->cijfers) {
             foreach ($deelnemers as $d) {
-                $yaml .= "- {$d['organisatie']}: {$d['totaal']} kilometers uit {$d['aantal']} acties - [publieke link](./{$d['code']})";
+                $yaml .= "- {$d['organisatie']} ({$d['gemeente']}): {$d['totaal']} kilometers uit {$d['aantal']} acties - [publieke link](./{$d['code']})";
                 if ($params->secret) $yaml .= " - [geheime link](./{$d['code']}/admin/{$d['pass']})";
                 $yaml .= "\n";
             }
