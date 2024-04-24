@@ -1,5 +1,6 @@
 Video-bestanden kunnen hier toegevoegd worden. 
 Bestandsnamen starten met een code (kleine letters of cijfers) gevolgd door twee streepjes (--) en een naam zonder spaties.
+Eventueel kunnen er nog twee streepjes volgen met daarachter de code die aangeeft bij welke deelnemers deze video getoond mag worden. Als deze code niet opgegeven wordt, gaat het om een algemene video die bij elke deelnemer mag getoond worden.
 
 Bijvoorbeeld:
 
@@ -8,5 +9,23 @@ Bijvoorbeeld:
   limburg2--Fietsen-door-het-Water-in-Bokrijk.mp4
   limburg3--Waterlandschap-van-de-Wijers.mp4
   rvv--Ronde-van-Vlaanderen-Cyclo.mp4
+
+GoPro-video's kunnen bewerkt worden met FFMPEG als volgt:
+
+1. Schalen en frame rate correct instellen
+   
+   `ffmpeg -i GH012177.MP4 -vf "scale=-2:800" -c:v libx264 -crf 30 -ar 8000 -r 25 -preset veryfast _GH012177.mp4``
+
+2. Aan elkaar plakken
+
+   `ffmpeg -f concat -safe 0 -i join_video.txt -c copy output_demuxer.mp4`
+
+   met in join_video.txt een lijst met absolute paden:
+
+   file /Users/pbertels/Downloads/kotk/GH012177.mp4
+   file /Users/pbertels/Downloads/kotk/GH022177.mp4
+   ...
+
+   
 
 
