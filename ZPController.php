@@ -183,8 +183,10 @@ class ZPController
             foreach ($deelnemers as $d) {
                 $yaml .= "<tr>\n";
                 $yaml .= "<td>{$d['organisatie']} ({$d['gemeente']})</td>";
+                $d['totaal'] = ($d['totaal'] == 0 ? '0' : $d['totaal']);
+                $d['aantal'] = ($d['aantal'] == 0 ? '0' : $d['aantal']);
                 $yaml .= "<td>{$d['totaal']} km</td>";
-                $yaml .= "<td>{$d['aantal']} acties</td>";
+                $yaml .= "<td>{$d['aantal']}</td>";
                 $projectorUrl = "https://zilverenpeloton.be/{$d['code']}";
                 $yaml .= "<td><a href=\"{$projectorUrl}\">{$projectorUrl}</a></td>";
                 if ($params->secret) {
