@@ -176,12 +176,20 @@ class ZPController
             $deelnemers = $stmt->fetchAll();
         }
         if ($params->cijfers) {
+            $yaml .= "<table>\n";
+            $yaml .= "<tr><th>Organisatie</th><th>KM</th><th>Acties</th><th>Projector link</th>";
+            if ($params->secret) $yaml .= "<th>Aanpassen link</th>";
+            $yaml .= "</tr>\n";
             foreach ($deelnemers as $d) {
-                $yaml .= "- {$d['organisatie']} ({$d['gemeente']}): {$d['totaal']} kilometers uit {$d['aantal']} acties  \n";
-                $yaml .= "projector: [https://zilverenpeloton.be/{$d['code']}](./{$d['code']})  ";
-                if ($params->secret) $yaml .= "aanpassen/besturen via smartphone: [https://zilverenpeloton.be/{$d['code']}/admin/{$d['pass']}](./{$d['code']}/admin/{$d['pass']})\n";
-                $yaml .= "\n";
+                $yaml .= "<tr>\n";
+                $yaml .= "<td>{$d['organisatie']} ({$d['gemeente']})</td>";
+                $yaml .= "<td>{$d['totaal']} km</td>";
+                $yaml .= "<td>{$d['aantal']} acties</td>";
+                $yaml .= "<td>[https://zilverenpeloton.be/{$d['code']}](./{$d['code']})</td>";
+                if ($params->secret) $yaml .= "<td>[https://zilverenpeloton.be/{$d['code']}/admin/{$d['pass']}](./{$d['code']}/admin/{$d['pass']})</td>";
+                $yaml .= "</tr>\n";
             }
+            $yaml .= "</table>\n";
         }
 
         return array(
