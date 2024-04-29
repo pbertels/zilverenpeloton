@@ -185,8 +185,12 @@ class ZPController
                 $yaml .= "<td>{$d['organisatie']} ({$d['gemeente']})</td>";
                 $yaml .= "<td>{$d['totaal']} km</td>";
                 $yaml .= "<td>{$d['aantal']} acties</td>";
-                $yaml .= "<td>[https://zilverenpeloton.be/{$d['code']}](./{$d['code']})</td>";
-                if ($params->secret) $yaml .= "<td>[https://zilverenpeloton.be/{$d['code']}/admin/{$d['pass']}](./{$d['code']}/admin/{$d['pass']})</td>";
+                $projectorUrl = "https://zilverenpeloton.be/{$d['code']}";
+                $yaml .= "<td><a href=\"{$projectorUrl}\">{$projectorUrl}</a></td>";
+                if ($params->secret) {
+                    $secretUrl = "https://zilverenpeloton.be/{$d['code']}/admin/{$d['pass']}";
+                    $yaml .= "<td><a href=\"{$secretUrl}\">{$secretUrl}</a></td>";
+                }
                 $yaml .= "</tr>\n";
             }
             $yaml .= "</table>\n";
