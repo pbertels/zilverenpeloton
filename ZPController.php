@@ -177,8 +177,9 @@ class ZPController
         }
         if ($params->cijfers) {
             foreach ($deelnemers as $d) {
-                $yaml .= "- {$d['organisatie']} ({$d['gemeente']}): {$d['totaal']} kilometers uit {$d['aantal']} acties - [publieke link](./{$d['code']})";
-                if ($params->secret) $yaml .= " - [geheime link](./{$d['code']}/admin/{$d['pass']})";
+                $yaml .= "- {$d['organisatie']} ({$d['gemeente']}): {$d['totaal']} kilometers uit {$d['aantal']} acties  \n";
+                $yaml .= "projector: [https://zilverenpeloton.be/{$d['code']}](./{$d['code']})  ";
+                if ($params->secret) $yaml .= "aanpassen/besturen via smartphone: [https://zilverenpeloton.be/{$d['code']}/admin/{$d['pass']}](./{$d['code']}/admin/{$d['pass']})\n";
                 $yaml .= "\n";
             }
         }
