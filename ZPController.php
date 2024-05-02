@@ -169,6 +169,7 @@ class ZPController
             FROM zlvrnpltn_deelnemers d
             LEFT JOIN zlvrnpltn_actie a ON d.id=a.deelnemer
             WHERE (d.id = 1 or d.id > 0)
+                AND (YEAR(a.updatedate) = YEAR(NOW()) )
             GROUP BY d.id
             ORDER BY (CASE WHEN d.id = 1 THEN 0 ELSE 1 END), d.organisatie;
         ');
