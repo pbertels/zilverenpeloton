@@ -167,9 +167,11 @@ class ZPController
         $stmt = $database->prepare('
             SELECT d.*, ROUND(10 * SUM(a.km)) / 10 AS totaal, COUNT(a.id) AS aantal
             FROM zlvrnpltn_deelnemers d
-            LEFT JOIN zlvrnpltn_actie a ON d.id=a.deelnemer
+            LEFT JOIN (
+                SELECT * FROM zlvrnpltn_actie
+                WHERE YEAR(updatedate) = YEAR(NOW())
+            ) a ON d.id=a.deelnemer
             WHERE (d.id = 1 or d.id > 0)
-                AND (YEAR(a.updatedate) = YEAR(NOW()) )
             GROUP BY d.id
             ORDER BY (CASE WHEN d.id = 1 THEN 0 ELSE 1 END), d.organisatie;
         ');
