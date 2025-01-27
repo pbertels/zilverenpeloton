@@ -600,4 +600,22 @@ class ZPController
             'inlinescript' => $jscript,
         );
     }
+
+    public function videoOverview($params)
+    {
+        list($videos, $videoMap) = ZPController::getVideos($params->domain);
+
+        $yaml = "---\n" .
+            "title: Video's\n" .
+            "colour: dark\n" .
+            "---\n\n";
+        $yaml .= "<pre>VIDEOS:\n" . print_r($videos, true) . '</pre>';
+        $yaml .= "<pre>videoMAP:\n" . print_r($videoMap, true) . '</pre>';
+
+        return array(
+            'type' => 'html',
+            'stats' => 'videoOverview',
+            'yaml+md' => $yaml,
+        );
+    }
 }

@@ -40,6 +40,7 @@ $site->setSectionSeparators(
 );
 $site->registerURL('', array('cijfers' => false, 'secret' => false), new ZPController(), 'all');
 $site->registerURL('overzicht', array('cijfers' => true, 'secret' => false), new ZPController(), 'all');
+$site->registerURL('videos', array('cijfers' => true, 'secret' => true), new ZPController(), 'videoOverview');
 $site->registerURL('TgJ1wy6vHMSvdtbC', array('cijfers' => true, 'secret' => true), new ZPController(), 'all');
 $site->registerURL('([a-z\-0-9]+)', array('code' => 0, 'domain' => $site->getAbsoluteURL('', true)), new ZPController(), 'video');
 $site->registerURL('([a-z\-0-9]+)/admin/([a-z\-0-9]+)', array('code' => 0, 'pass' => 1, 'mode' => 'admin'), new ZPController(), 'overview');
