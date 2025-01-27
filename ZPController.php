@@ -37,10 +37,15 @@ class ZPController
         $videoMap = array();
         $files = glob('./video/*--*.mp4');
         usort($files, '\ZilverenPeloton\ZPController::sortVideos');
+        $sz = 'BKMGTP';
         // echo '<pre>' . print_r($files, true) . '</pre>'; exit;
         foreach ($files as $file) {
             $v = array();
             $info = pathinfo($file);
+            $bytes = filesize($file);
+            $factor = floor((strlen($bytes) - 1) / 3);
+            $fsize = str_replace('BB', 'bytes', sprintf("%.1f", $bytes / pow(1024, $factor)) . ' ' . @$sz[$factor] . 'B');
+            $v['filesize'] = $fsize;
             $s = explode('--', $info['filename']);
             $v['code'] = $s[0];
             $v['naam'] = str_replace('-', ' ', $s[1]);
@@ -609,8 +614,13 @@ class ZPController
             "title: Video's\n" .
             "colour: dark\n" .
             "---\n\n";
-        $yaml .= "<pre>VIDEOS:\n" . print_r($videos, true) . '</pre>';
-        $yaml .= "<pre>videoMAP:\n" . print_r($videoMap, true) . '</pre>';
+        $yaml .= "---------------\n{.light}\n\n";
+        $yaml .= "### Wil je ook een bruikbare video aanleveren?";
+        $yaml .= "---------------\n{.dark}\n\n";
+        $yaml .= "### Voorbeelden van beschikbare video's: \n\n";
+        foreach ($videos as $vid) {
+            $yaml .= "- {$vid['naam']} ({$vid['code']}): <a href=\"{$vid['url']}\">afspelen</a> ({$vid['filesize']})\n";
+        }
 
         return array(
             'type' => 'html',
