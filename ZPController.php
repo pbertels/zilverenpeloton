@@ -622,9 +622,9 @@ class ZPController
         $yaml .= "- Gewone frame rate: 24 FPS (beelden per seconde) is ruim voldoende\n";
         $yaml .= "- Resolutie 1280x720 (ook wel 720p genoemd)\n";
         $yaml .= "\n\nMerk op dat de standaard instellingen van GoPro veeeeeeel grotere videobestanden aanmaken waardoor het lastig wordt om ze door te sturen. Check op voorhand de frame rate (FPS). Zorg dat die op 24 of op 25 ingesteld staat (en niet op 120 of 240!). Let ook op de resolutie. De beste resolutie voor het Zilveren Peloton is 720p terwjil GoPro standaard op 4K staat, wat veel te groot is.\n\n";
-        $yaml .= "\n### Video doorsturen\n\n";
-        $yaml .= "Gebruik [WeTransfer](https://wetransfer.com) en stuur je video naar <code>peter.bertels@norsu.eu</code>. \nZet er zeker bij voor welk deelnemend WZC jouw video bedoeld is.";
-        $yaml .= "\m\n---------------\n{.light}\n\n";
+        $yaml .= "\n### Video doorsturen\n";
+        $yaml .= "\n\nGebruik [WeTransfer](https://wetransfer.com) en stuur je video naar <code>peter.bertels@norsu.eu</code>. Zet er zeker bij voor welk deelnemend WZC jouw video bedoeld is.\n\n";
+        $yaml .= "\n\n---------------\n{.light}\n\n";
         $yaml .= "### Voorbeelden van beschikbare video's: \n\n";
         foreach ($videos as $vid) {
             $yaml .= "- {$vid['naam']} ({$vid['code']}): [afspelen]({$vid['url']}) ({$vid['filesize']})\n";
